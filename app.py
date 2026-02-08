@@ -480,10 +480,13 @@ with tab3:
         st.subheader("💰 AI Monetization Advice")
         
         if GEMINI_AVAILABLE:
-            if st.button("🤖 Get AI Advice", type="secondary"):
+            api_key = os.getenv("GEMINI_API_KEY")
+            if not api_key:
+                st.warning("⚠️ Set GEMINI_API_KEY environment variable to use AI advice feature")
+            elif st.button("🤖 Get AI Advice", type="secondary"):
                 with st.spinner("Getting AI advice..."):
                     try:
-                        genai.configure(api_key="YOUR_API_KEY_HERE")
+                        genai.configure(api_key=api_key)
                         model = genai.GenerativeModel("models/gemini-2.5-flash")
                         
                         prompt = f"""Analyze this video transcription and provide:
