@@ -1,0 +1,18 @@
+# Core
+streamlit
+yt-dlp
+pandas
+numpy
+faster-whisper
+
+# NLP Libraries
+textblob
+spacy
+scikit-learn
+
+# AI
+google-generativeai
+
+# Optional: For advanced transformer-based NLP (slower but more accurate)
+# transformers
+# torch
