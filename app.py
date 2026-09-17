@@ -18,7 +18,7 @@ except ImportError:
 # Import local modules
 from audio_utils import download_youtube_video, extract_audio, find_ffmpeg
 from transcriber import transcribe_audio_local, check_transcription_quality
-from model_manager import is_model_downloaded, get_models_status, get_model_cache_path
+from model_manager import is_model_downloaded, get_models_status, get_model_cache_path, get_download_size_label
 from nlp_analysis import (
     analyze_sentiment, extract_named_entities, summarize_text_extractive,
     detect_toxicity_rulebased, extract_keywords_tfidf, calculate_readability,
@@ -76,7 +76,14 @@ with st.sidebar:
     
     # Check if selected model is downloaded
     if not is_model_downloaded(model_size):
-        st.warning(f"⚠️ Model '{model_size}' not cached. Run `python download_models.py` first to pre-download models, or it will download on first transcription.")
+        size_label = get_download_size_label(model_size)
+        st.warning(
+            f"⚠️ Model '{model_size}' is not cached yet. The first transcription will "
+            f"download it ({size_label}) before any text appears, which can take a while "
+            f"on a slow connection.\n\n"
+            f"To watch the download with real progress instead, run "
+            f"`python model_manager.py {model_size}` in a terminal first."
+        )
     
     device = st.selectbox(
         "Processing Device",
@@ -202,7 +209,19 @@ with tab2:
             # Run transcription
             if audio_file:
                 try:
-                    with st.spinner(f"🔄 Transcribing with {model_size} model..."):
+                    if is_model_downloaded(model_size):
+                        spinner_text = f"🔄 Transcribing with {model_size} model..."
+                    else:
+                        # First run for this size: the wait is the download, not the
+                        # transcription. Saying "transcribing" here is what makes the
+                        # app look frozen.
+                        spinner_text = (
+                            f"⬇️ Downloading the {model_size} model "
+                            f"({get_download_size_label(model_size)}), then transcribing. "
+                            f"First run only - it is cached after this."
+                        )
+
+                    with st.spinner(spinner_text):
                         result = transcribe_audio_local(
                             audio_file,
                             model_size=model_size,

@@ -81,13 +81,24 @@ audio-transcription-local/
 
 ### 1. Install FFmpeg
 
-**Windows:**
-```bash
-# Download from https://ffmpeg.org/download.html
-# Extract to C:\ffmpeg\ and add to PATH
-# Or install via Chocolatey:
-choco install ffmpeg
+**Windows** — easiest, no PATH editing and no extra package manager:
+```powershell
+winget install Gyan.FFmpeg
 ```
+Then **close the terminal and open a new one** (PATH only refreshes for new windows).
+
+No `winget`? Drop the binary where the app already looks:
+
+1. Download the *essentials* build from https://www.gyan.dev/ffmpeg/builds/
+2. Unzip it so the file lands at exactly `C:\ffmpeg\bin\ffmpeg.exe`
+
+`audio_utils.find_ffmpeg()` checks that path before it checks PATH, so this works on its own.
+
+Already have Chocolatey? `choco install ffmpeg` is fine too.
+
+> **Check it worked:** the app prints `✅ FFmpeg: <path>` on startup. A full path ending in
+> `ffmpeg.exe` means it was found. The bare word `ffmpeg` means it was not, and transcription
+> will fail.
 
 **macOS:**
 ```bash

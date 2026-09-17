@@ -12,10 +12,31 @@ os.environ["CT2_HOME"] = str(MODEL_CACHE_DIR)
 REQUIRED_FILES = ["config.json", "model.bin", "tokenizer.json"]
 VOCAB_CANDIDATES = ["vocabulary.json", "vocabulary.txt"]
 
+# Approximate download size of each model, so the UI can warn before a first run
+# spends several minutes pulling gigabytes with nothing on screen.
+MODEL_DOWNLOAD_MB = {
+    "tiny": 75,
+    "base": 145,
+    "small": 480,
+    "medium": 1500,
+    "large": 3000,
+    "large-v3": 3000,
+}
+
 
 def get_available_models() -> List[str]:
     """Get list of Whisper models available"""
     return ["tiny", "base", "small", "medium", "large", "large-v3"]
+
+
+def get_download_size_label(model_size: str) -> str:
+    """Human-readable approximate download size, e.g. '~145 MB' or '~1.5 GB'."""
+    mb = MODEL_DOWNLOAD_MB.get(model_size)
+    if not mb:
+        return "unknown size"
+    if mb >= 1000:
+        return f"~{mb / 1000:.1f} GB".replace(".0 GB", " GB")
+    return f"~{mb} MB"
 
 
 def get_model_cache_path() -> Path:
