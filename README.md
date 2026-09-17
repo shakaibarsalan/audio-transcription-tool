@@ -6,7 +6,7 @@ A comprehensive local audio transcription and NLP analysis tool built for the **
 
 ### 📥 Input Sources
 - **YouTube URL** - Download audio directly from YouTube
-- **Audio Upload** - MP3, WAV, M4A, FLAC, OGG
+- **Audio Upload** - MP3, WAV, M4A, FLAC, OGG, OPUS/OGA, AAC, WMA, AMR (WhatsApp and Telegram voice notes upload as-is)
 - **Video Upload** - MP4, AVI, MOV, MKV, WEBM (auto-extracts audio)
 
 ### 📝 Transcription
