@@ -134,8 +134,8 @@ with tab1:
     elif input_method == "Upload Audio File":
         st.subheader("Upload Audio File")
         uploaded_audio = st.file_uploader(
-            "Upload audio file (mp3, wav, m4a, etc.)",
-            type=["mp3", "wav", "m4a", "flac", "ogg"]
+            "Upload audio file (mp3, wav, m4a, voice notes, etc.)",
+            type=["mp3", "wav", "m4a", "flac", "ogg", "opus", "oga", "aac", "wma", "amr"]
         )
         if uploaded_audio:
             # Save uploaded file
